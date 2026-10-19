@@ -6,6 +6,8 @@ public class PickupItem : MonoBehaviour
     [SerializeField] private string itemName = "æ∆¿Ã≈€";
     [SerializeField] private int amount = 1;
 
+    [SerializeField] QuestManager questManager;
+
     [Header("»≠∏È ø¨√‚")]
     [SerializeField] private float rotationSpeed = 60f;
     [SerializeField] private float floatingHeight = 0.15f;
@@ -13,6 +15,10 @@ public class PickupItem : MonoBehaviour
 
     private Vector3 startPosition;
 
+    public void Awake()
+    {
+        questManager = FindFirstObjectByType<QuestManager>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +38,7 @@ public class PickupItem : MonoBehaviour
     public void Collect()
     {
         Debug.Log(itemName + " " + amount + "∞≥ »πµÊ");
+        questManager.AddQuestItem(itemName, amount);
         Destroy(gameObject);
     }
 
