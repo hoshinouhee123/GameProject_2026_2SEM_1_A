@@ -15,9 +15,12 @@ public class PickupItem : MonoBehaviour
 
     private Vector3 startPosition;
 
+    private SimpleInventory inventory;
+
     public void Awake()
     {
         questManager = FindFirstObjectByType<QuestManager>();
+        inventory = FindFirstObjectByType<SimpleInventory>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,8 +40,26 @@ public class PickupItem : MonoBehaviour
 
     public void Collect()
     {
+        if (inventory == null)
+        {
+            Debug.Log("SimpleInventory를 찾을 수 없습니다.");
+            return;
+        }
+
+        if (inventory.AddItem(itemName, amount) == false)
+        {
+            return;
+        }
+
         Debug.Log(itemName + " " + amount + "개 획득");
-        questManager.AddQuestItem(itemName, amount);
+        if (questManager != null)
+        {
+            questManager.AddQuestItem(itemName, amount);
+        }
+
+        
+
+
         Destroy(gameObject);
     }
 
@@ -46,4 +67,5 @@ public class PickupItem : MonoBehaviour
     {
         return itemName;
     }
+
 }
